@@ -21,7 +21,7 @@ app.set('view engine', 'ejs')
 
 // blog home page
 app.get('/', function (req, res) {
-  res.render('mail', { price: this.price})
+  res.render('../views/mail', { price: this.price})
 })
 
 app.get('/calculateRate', function (req, res) {
@@ -128,4 +128,4 @@ function calculateRate(mailType, weight) {
 
 app.listen(PORT)
 
-console.log('listening on port 3000')
+console.log('listening on port ' + PORT)
