@@ -1,32 +1,42 @@
 // const express = require('express')
 // const path = require('path')
 const PORT = process.env.PORT || 5000
-//
-// express()
-//   .use(express.static(path.join(__dirname, 'public')))
-//   .set('views', path.join(__dirname, 'views'))
-//   .set('view engine', 'ejs')
-//   .get('/', (req, res) => res.render('pages/index'))
-//   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 /* app.js */
 
 // require and instantiate express
 const app = require('express')()
 var url = require('url');
+var dbConnect = require('db');
 var price = 0;
+
 
 // set the view engine to ejs
 app.set('view engine', 'ejs')
 
-// blog home page
-app.get('/', function (req, res) {
-  res.render('../views/mail', { price: this.price})
+//ROUTING
+
+app.get('/mail', function (req, res) {
+  res.render('./mail', { price: this.price})
+})
+
+app.get('/family', function (req, res) {
+  res.render('./familyRelationships', { person: this.person})
+})
+
+//CALCUALTIONS
+
+app.get('/getPerson', function (req, res) {
+  getPerson();
 })
 
 app.get('/calculateRate', function (req, res) {
   handleCalculateReq(req, res)
 })
+
+function getPerson(req, res) {
+
+}
 
 function handleCalculateReq(req, res) {
   var requestUrl = url.parse(req.url, true)
