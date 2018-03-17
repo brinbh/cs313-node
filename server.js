@@ -5,8 +5,8 @@ const pg = require('pg');
 const url = require('url');
 const connectionString = 'postgres://postgres:postgres@localhost:5432/stories';
 
-if (process.env.DATABASE_URL) {
-  var db_url = url.parse(process.env.DATABASE_URL);
+// if (process.env.DATABASE_URL) {
+  var db_url = url.parse('postgres://xxhxbtldlnxyez:2b9e3d43cb295598843f53e36c72ce158389bc5109a746509dd4e1a6dee32ee0@ec2-54-221-212-15.compute-1.amazonaws.com:5432/d2uc0f94loimtc');
   var scheme = db_url.protocol.substr(0, db_url.protocol.length - 1);
   var user = db_url.auth.substr(0, db_url.auth.indexOf(':'));
   var pass = db_url.auth.substr(db_url.auth.indexOf(':') + 1, db_url.auth.length);
@@ -22,7 +22,7 @@ if (process.env.DATABASE_URL) {
     port: port
   });
 
-}
+// }
 
 app.set('port', (process.env.PORT || 5000));
 
