@@ -7,12 +7,17 @@ const connectionString = 'postgres://postgres:postgres@localhost:5432/stories';
 
 // if (process.env.DATABASE_URL) {
   var db_url = url.parse('postgres://xxhxbtldlnxyez:2b9e3d43cb295598843f53e36c72ce158389bc5109a746509dd4e1a6dee32ee0@ec2-54-221-212-15.compute-1.amazonaws.com:5432/d2uc0f94loimtc');
-  var scheme = db_url.protocol.substr(0, db_url.protocol.length - 1);
-  var user = db_url.auth.substr(0, db_url.auth.indexOf(':'));
-  var pass = db_url.auth.substr(db_url.auth.indexOf(':') + 1, db_url.auth.length);
-  var host = db_url.host.substr(0, db_url.host.indexOf(':'));
-  var port = db_url.host.substr(db_url.host.indexOf(':') + 1, db_url.host.length);
-  var db = db_url.path.substr(db_url.path.indexOf('/') + 1, db_url.path.length);
+  // var scheme = db_url.protocol.substr(0, db_url.protocol.length - 1);
+  // var user = db_url.auth.substr(0, db_url.auth.indexOf(':'));
+  // var pass = db_url.auth.substr(db_url.auth.indexOf(':') + 1, db_url.auth.length);
+  // var host = db_url.host.substr(0, db_url.host.indexOf(':'));
+  // var port = db_url.host.substr(db_url.host.indexOf(':') + 1, db_url.host.length);
+  // var db = db_url.path.substr(db_url.path.indexOf('/') + 1, db_url.path.length);
+var user = 'xxhxbtldlnxyez';
+var pass = '2b9e3d43cb295598843f53e36c72ce158389bc5109a746509dd4e1a6dee32ee0';
+var host = 'compute-1.amazonaws.com';
+var port = 5432;
+var db = 'd2uc0f94loimtc';
 
   const client = new Client({
     host: host,
