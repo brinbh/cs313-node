@@ -5,7 +5,24 @@ const pg = require('pg');
 const url = require('url');
 const connectionString = 'postgres://postgres:postgres@localhost:5432/stories';
 
-// var db_url = url.parse(DATABASE_URL);
+if (process.env.DATABASE_URL) {
+  var db_url = url.parse(process.env.DATABASE_URL);
+  var scheme = db_url.protocol.substr(0, db_url.protocol.length - 1);
+  var user = db_url.auth.substr(0, db_url.auth.indexOf(':'));
+  var pass = db_url.auth.substr(db_url.auth.indexOf(':') + 1, db_url.auth.length);
+  var host = db_url.host.substr(0, db_url.host.indexOf(':'));
+  var port = db_url.host.substr(db_url.host.indexOf(':') + 1, db_url.host.length);
+  var db = db_url.path.substr(db_url.path.indexOf('/') + 1, db_url.path.length);
+
+  const client = new Client({
+    host: host,
+    user: user,
+    database: db,
+    password: pass,
+    port: port
+  });
+
+}
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -26,62 +43,6 @@ app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
 
-/*
-GET A
- */
-//
-// function getAllAuthors(request, response) {
-//   console.log("entering getAllStories()");
-//
-//   // use a helper function to query the DB, and provide a callback for when it's done
-//   getAllStoriesFromDb( function(error, result) {
-//
-//     // Make sure we got a row with the story, then prepare JSON to send back
-//     if (error || result == null) {
-//       console.log("Results: " + result);
-//       console.log("Error: " + error);
-//       response.status(500).json({success: false, data: error});
-//     } else {
-//       var stories = result;
-//       response.status(200).json(result);
-//     }
-//   });
-// }
-//
-// function getAllStoriesFromDb(callback) {
-//   console.log("Getting stories from DB");
-//
-//   var client = new pg.Client(connectionString);
-//
-//   client.connect(function (err) {
-//     if (err) {
-//       console.log("Error connecting to DB: ")
-//       console.log(err);
-//       callback(err, null);
-//     }
-//
-//     var sql = "SELECT s.stories_title, s.stories_content, a.authors_name FROM stories as s INNER JOIN authors as a ON s.stories_id = a.authors_stories;";
-//
-//     var query = client.query(sql, function (err, result) {
-//       // we are now done getting the data from the DB, disconnect the client
-//       client.end(function (err) {
-//         if (err) throw err;
-//       });
-//
-//       if (err) {
-//         console.log("Error in query: ")
-//         console.log(err);
-//         callback(err, null);
-//       }
-//
-//       // console.log("Found result: " + JSON.stringify(result.rows));
-//
-//       // call whatever function the person that called us wanted, giving it
-//       // the results that we have been compiling
-//       callback(null, result.rows);
-//     });
-//   });
-// }
 
 /*
 GET ALL STORIES
@@ -108,7 +69,7 @@ function getAllStories(request, response) {
 function getAllStoriesFromDb(callback) {
   console.log("Getting stories from DB");
 
-  var client = new pg.Client(connectionString);
+  var client = (this.client || new pg.Client(connectionString));
 
   client.connect(function (err) {
     if (err) {
@@ -166,7 +127,7 @@ function getStory(request, response) {
 function getStoryFromDb(id, callback) {
   console.log("Getting story from DB with id: " + id);
 
-  var client = new pg.Client(connectionString);
+  var client = (this.client || new pg.Client(connectionString));
 
   client.connect(function (err) {
     if (err) {
