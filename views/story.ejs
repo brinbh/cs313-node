@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Story</title>
+</head>
+<body onload="displayStory()">
+<h1>It's working</h1>
+<div id="content">
+    <p><%= story.stories_title %></p>
+</div>
+<script>
+    function displayStory() {
+      var id = 0;
+      var url = window.location.href.split("/");
+      for (var el in url) {
+        if (url[el] === 'story' ) {
+          id = parseInt(url[parseInt(el) + 1]);
+          getStory(id);
+        }
+      }
+    }
+
+    function getStory(id) {
+      debugger
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("content").innerHTML = this.responseText;
+        }
+      };
+      var url = "/getStory/" + id;
+      xhttp.open("GET", url, true);
+      xhttp.send();
+    }
+
+
+</script>
+</body>
+</html>

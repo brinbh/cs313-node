@@ -1,9 +1,42 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title></title>
+    <meta charset="UTF-8">
+    <title>Stories</title>
 </head>
-<body>
-<h1>The Best Postal Rate Calculator</h1>
+<body onload="getStories()">
+<h1>Stories</h1>
 
+<div id="stories"></div>
+<script>
+
+  function displayStories(stories) {
+    var text = "<ul>";
+    for (var story in stories) {
+      debugger
+      text +=
+        "<li class='story'>" +
+        "<a href='/story/" + stories[story].stories_id + "'rzd>" +
+        "<p>" + stories[story].stories_title + "</p></a>" +
+        "<p class='small'>" + stories[story].authors_name + "</p>" +
+        "</li>"
+    }
+    text += "</ul>";
+    document.getElementById("stories").innerHTML = text;
+  }
+    //get all stories
+  function getStories() {
+    var xhttp = new XMLHttpRequest();
+    var stories = {};
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+         stories = JSON.parse(this.responseText);
+         displayStories(stories);
+      }
+    };
+    xhttp.open("GET", "/getAllStories", true);
+    xhttp.send();
+  }
+</script>
 </body>
 </html>
