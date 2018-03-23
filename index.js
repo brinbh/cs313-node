@@ -6,6 +6,7 @@ const url = require('url');
 const connectionString = 'postgres://postgres:postgres@localhost:5432/stories';
 
 app.set('port', (process.env.PORT || 5000));
+console.log("entering index.js");
 
 if (process.env.PORT) {
   var db_url = url.parse('postgres://xxhxbtldlnxyez:2b9e3d43cb295598843f53e36c72ce158389bc5109a746509dd4e1a6dee32ee0@ec2-54-221-212-15.compute-1.amazonaws.com:5432/d2uc0f94loimtc');
