@@ -1,27 +1,120 @@
-.jumbotron {
-  background: #532F8C;
-  color: white;
-  padding-bottom: 80px; }
-  .jumbotron .btn-primary {
-    background: #845ac7;
-    border-color: #845ac7; }
-    .jumbotron .btn-primary:hover {
-      background: #7646c1; }
-  .jumbotron p {
-    color: #d9ccee;
-    max-width: 75%;
-    margin: 1em auto 2em; }
-  .navbar + .jumbotron {
-    margin-top: -20px; }
-  .jumbotron .lang-logo {
-    display: block;
-    background: #B01302;
-    border-radius: 50%;
-    overflow: hidden;
-    width: 100px;
-    height: 100px;
-    margin: auto;
-    border: 2px solid white; }
-    .jumbotron .lang-logo img {
-      max-width: 100%; }
+/*RESET*/
+*{
+    margin: 0;
+    padding: 0;
+}
+/*TYPOGRAPHY*/
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,700,800');
+/*Open Sans Numbers: Light - 300; Regular: 400; Bold: 700; Extra-Bold: 800;*/
+h1, h2, h3, h4, h5, h6, p, a, label, input, textarea {
+    font-family: 'Open Sans', sans-serif;
+    color: #515151;
+    text-decoration: none;
+}
+h1 {
+    font-weight: 300;
+}
+h2 {
+    font-weight: 700;
+    padding-top: 1.75rem;
+}
+h3 {
+    font-weight: 300;
+    padding-top: 1.5rem;
+}
+p:first-of-type {
+    padding-top: 1rem;
+}
+a, p a{
+    color: #336598;
+    border-bottom: 1px solid #336598;
+    padding-top: 1rem;
+}
+a{
+    border-bottom: 1px solid #515151;
+}
+label {
+    padding-top: 1.5rem;
+    padding-bottom: .5rem;
+}
+input, textarea {
+    font-size: 1.3rem;
+    padding: 5px 0px;
+}
 
+/*COLOR*/
+body{
+    background-color: #F2F1EF;
+}
+
+
+/*LAYOUT*/
+
+body{
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 5%;
+}
+
+header{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.main-content{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+footer {
+    padding-top: 100%;
+}
+
+img {
+    margin-right: 20px;
+    border-radius: 5px;
+    float: left;
+}
+ul {
+    list-style-type: none;
+}
+
+hr {
+    margin: 40px 0px;
+    color: #f9f9f9;
+}
+
+header {
+    display: flex;
+    flex-flow: row;
+}
+#add-button {
+    border-bottom: none;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* FORM */
+form {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+input, textarea {
+    width: 100%;
+    font-size: 1rem;
+    border: none;
+}
+textarea {
+    min-height: 200px;
+}
+input[type="submit"] {
+    background-color: #515151;
+    color: #F2F1EF;
+    width: 10%;
+    cursor: pointer;
+    padding: 5px;
+}

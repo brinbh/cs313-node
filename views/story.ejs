@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Story</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
 </head>
 <body onload="displayStory()">
-<h1>It's working</h1>
-<div id="content">
-    <p><%= story.stories_title %></p>
-</div>
+<h1 id="title"></h1>
+<p id="content">
+</p>
 <script>
     function displayStory() {
+      console.log("displayStory()");
       var id = 0;
       var url = window.location.href.split("/");
       for (var el in url) {
@@ -22,11 +23,13 @@
     }
 
     function getStory(id) {
-      debugger
+      console.log("getStory()");
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-          document.getElementById("content").innerHTML = this.responseText;
+          story = JSON.parse(this.responseText);
+          document.getElementById("title").innerHTML = story.stories_title;
+          document.getElementById("content").innerHTML = story.stories_content;
         }
       };
       var url = "/getStory/" + id;
