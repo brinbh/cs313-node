@@ -234,8 +234,8 @@ function addStoryToDb(story, callback) {
         callback(err, null);
       }
 
-      callback(null, result.rows);
-      console.log("result: " + result.rows);
+      callback(null, result);
+      console.log("result: " + Object.keys(result));
     });
   });
 }
