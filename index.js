@@ -212,6 +212,7 @@ function addStoryToDb(story, callback) {
 
   var client = (this.client || new pg.Client(connectionString));
 
+  console.log(client);
   client.connect(function (err) {
     if (err) {
       console.log("Error connecting to DB: ")
@@ -235,5 +236,6 @@ function addStoryToDb(story, callback) {
 
       callback(null, result.rows);
     });
+    console.log(query);
   });
 }
