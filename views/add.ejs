@@ -5,7 +5,7 @@
     <title>Stories</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
 </head>
-<body onload="getStories()">
+<body>
 <header>
     <h1>Add A Story</h1>
 </header>
@@ -20,33 +20,6 @@
     <input type="submit" value="Save">
 </form>
 <script>
-
-  function displayStories(stories) {
-    var text = "<ul>";
-    for (var story in stories) {
-      text +=
-        "<li class='story'>" +
-        "<p class='small'><a href='/story/" + stories[story].stories_id + "'>"
-        + stories[story].stories_title + "</a> - "
-        + stories[story].authors_name + "</p>" +
-        "</li>"
-    }
-    text += "</ul>";
-    document.getElementById("stories").innerHTML = text;
-  }
-  //get all stories
-  function getStories() {
-    var xhttp = new XMLHttpRequest();
-    var stories = {};
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        stories = JSON.parse(this.responseText);
-        displayStories(stories);
-      }
-    };
-    xhttp.open("GET", "/getAllStories", true);
-    xhttp.send();
-  }
 </script>
 </body>
 </html>

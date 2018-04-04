@@ -188,7 +188,6 @@ function addStory(request, response) {
     title: request.body.title,
     content: request.body.content
   }
-  debugger
   // use a helper function to query the DB, and provide a callback for when it's done
   // addStoryToDb(function(error, result) {
   //
@@ -200,7 +199,10 @@ function addStory(request, response) {
   //   }
   // });
 
-  console.log("response: " + response);
+  console.log("author: " + author);
+  console.log("title: " + story.title);
+  console.log("content: " + story.content);
+
 
   return response;
 
