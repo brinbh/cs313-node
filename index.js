@@ -194,7 +194,7 @@ function addStory(request, response) {
   addStoryToDb(story, function(error, result) {
 
     // Make sure we got a row with the person, then prepare JSON to send back
-    if (error || result == null || result.length != 1) {
+    if (error || result !== "success") {
       response.status(500).json({success: false, data: error});
     } else {
       response.status(200).json(result[0]);
@@ -233,8 +233,9 @@ function addStoryToDb(story, callback) {
         console.log(err);
         callback(err, null);
       }
+      var status;
 
-      callback(null, result);
+      callback(null, status);
       console.log("result: " + Object.keys(result));
     });
   });
