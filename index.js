@@ -12,28 +12,7 @@ console.log("PORT: " + process.env.PORT);
 console.log("entering index.js");
 
 if (process.env.PORT) {
-  console.log("entering heroku client connection on port: " + process.env.PORT);
-  // var db_url = url.parse('postgres://xxhxbtldlnxyez:2b9e3d43cb295598843f53e36c72ce158389bc5109a746509dd4e1a6dee32ee0@ec2-54-221-212-15.compute-1.amazonaws.com:5432/d2uc0f94loimtc');
-  // // var scheme = db_url.protocol.substr(0, db_url.protocol.length - 1);
-  // var user = db_url.auth.substr(0, db_url.auth.indexOf(':'));
-  // var pass = db_url.auth.substr(db_url.auth.indexOf(':') + 1, db_url.auth.length);
-  // var host = db_url.host.substr(0, db_url.host.indexOf(':'));
-  // var port = db_url.host.substr(db_url.host.indexOf(':') + 1, db_url.host.length);
-  // var db = db_url.path.substr(db_url.path.indexOf('/') + 1, db_url.path.length);
-  //
-  // const client = new Client({
-  //   host: host,
-  //   user: user,
-  //   database: db,
-  //   password: pass,
-  //   port: port
-  // });
-  // const client = new Client({
-  //   connectionString: process.env.DATABASE_URL,
-  //   ssl: true,
-  // });
   connectionString = process.env.DATABASE_URL;
-
 }
 
 app.use(express.static(__dirname + '/public'));
@@ -64,8 +43,8 @@ app.get('/add', function (req, res) {
 });
 
 app.post('/addStory', urlencodedParser, function (req, res) {
-  // addStory(req, res);
-  res.render('success', {data: req.body});
+  addStory(req, res);
+  // res.render('success', {data: req.body});
   // res.end(JSON.stringify(req.body))
 });
 
