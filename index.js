@@ -235,7 +235,7 @@ function addStoryToDb(story, callback) {
       }
 
       callback(null, result.rows);
-      console.log("result: " + result);
+      console.log("result: " + result.rows);
     });
   });
 }
