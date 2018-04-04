@@ -191,7 +191,7 @@ function addStory(request, response) {
     content: request.body.content
   }
   // use a helper function to query the DB, and provide a callback for when it's done
-  addStoryToDb(function(error, result) {
+  addStoryToDb(story, function(error, result) {
 
     // Make sure we got a row with the person, then prepare JSON to send back
     if (error || result == null || result.length != 1) {
@@ -205,7 +205,7 @@ function addStory(request, response) {
 
 }
 
-function addStoryToDb(callback) {
+function addStoryToDb(story, callback) {
   console.log("entering addStoryToDb() ");
 
   var client = (this.client || new pg.Client(connectionString));
@@ -217,9 +217,9 @@ function addStoryToDb(callback) {
       callback(err, null);
     }
     // insert into stories (stories_title, stories_content) values ('Story Title', 'This story is awesome');
-    var sql = "INSERT INTO stories (stories_title, stories_content) VALUES ()";
+    var sql = "INSERT INTO stories (stories_title, stories_content) VALUES ($1, $2)";
 
-    var query = client.query(sql, function (err, result) {
+    var query = client.query(sql, [story.title, story.content], function (err, result) {
       // we are now done getting the data from the DB, disconnect the client
       client.end(function (err) {
         if (err) throw err;
