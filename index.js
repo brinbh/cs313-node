@@ -195,6 +195,7 @@ function addStory(request, response) {
 
     // Make sure we got a row with the person, then prepare JSON to send back
     if (error || result !== "success") {
+      console.log("addStoryToDb result: " + result);
       response.status(500).json({success: false, data: error});
     } else {
       response.status(200).json(result[0]);
