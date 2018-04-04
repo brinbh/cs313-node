@@ -47,7 +47,7 @@ app.post('/addStory', urlencodedParser, function (req, res, next) {
   addStory(req, res);
   // res.render('success', {data: req.body});
   // res.end(JSON.stringify(req.body))
-  res.redirect('/');
+  // res.redirect('/');
 });
 
 app.get('/getStory/:id', function (req, res) {
