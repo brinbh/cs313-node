@@ -43,6 +43,7 @@ app.get('/add', function (req, res) {
 });
 
 app.post('/addStory', urlencodedParser, function (req, res) {
+  console.log("posting addStory()");
   addStory(req, res);
   // res.render('success', {data: req.body});
   // res.end(JSON.stringify(req.body))
