@@ -212,7 +212,6 @@ function addStoryToDb(story, callback) {
 
   var client = (this.client || new pg.Client(connectionString));
 
-  console.log(client);
   client.connect(function (err) {
     if (err) {
       console.log("Error connecting to DB: ")
@@ -223,6 +222,7 @@ function addStoryToDb(story, callback) {
     var sql = "INSERT INTO stories (stories_title, stories_content) VALUES ($1, $2)";
 
     var query = client.query(sql, [story.title, story.content], function (err, result) {
+      console.log("entering client.query");
       // we are now done getting the data from the DB, disconnect the client
       client.end(function (err) {
         if (err) throw err;
