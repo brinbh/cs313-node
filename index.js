@@ -42,11 +42,12 @@ app.get('/add', function (req, res) {
   res.render('add')
 });
 
-app.post('/addStory', urlencodedParser, function (req, res) {
+app.post('/addStory', urlencodedParser, function (req, res, next) {
   console.log("posting addStory()");
   addStory(req, res);
   // res.render('success', {data: req.body});
   // res.end(JSON.stringify(req.body))
+  res.redirect('/');
 });
 
 app.get('/getStory/:id', function (req, res) {
@@ -190,20 +191,15 @@ function addStory(request, response) {
     content: request.body.content
   }
   // use a helper function to query the DB, and provide a callback for when it's done
-  // addStoryToDb(function(error, result) {
-  //
-  //   // Make sure we got a row with the person, then prepare JSON to send back
-  //   if (error || result == null || result.length != 1) {
-  //     response.status(500).json({success: false, data: error});
-  //   } else {
-  //     response.status(200).json(result[0]);
-  //   }
-  // });
+  addStoryToDb(function(error, result) {
 
-  console.log("author: " + author);
-  console.log("title: " + story.title);
-  console.log("content: " + story.content);
-
+    // Make sure we got a row with the person, then prepare JSON to send back
+    if (error || result == null || result.length != 1) {
+      response.status(500).json({success: false, data: error});
+    } else {
+      response.status(200).json(result[0]);
+    }
+  });
 
   return response;
 
@@ -221,7 +217,7 @@ function addStoryToDb(callback) {
       callback(err, null);
     }
     // insert into stories (stories_title, stories_content) values ('Story Title', 'This story is awesome');
-    var sql = "INSERT INTO stories (stories_title, stories_content, stories_author) VALUES ()";
+    var sql = "INSERT INTO stories (stories_title, stories_content) VALUES ()";
 
     var query = client.query(sql, function (err, result) {
       // we are now done getting the data from the DB, disconnect the client
