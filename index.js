@@ -3,7 +3,7 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 const pg = require('pg');
 const url = require('url');
-const connectionString = 'postgres://postgres:postgres@localhost:5432/stories';
+let connectionString = 'postgres://postgres:postgres@localhost:5432/stories';
 const app = express();
 const { Client } = require('pg');
 
@@ -28,10 +28,11 @@ if (process.env.PORT) {
   //   password: pass,
   //   port: port
   // });
-  const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true,
-  });
+  // const client = new Client({
+  //   connectionString: process.env.DATABASE_URL,
+  //   ssl: true,
+  // });
+  connectionString = process.env.DATABASE_URL;
 
 }
 
