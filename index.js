@@ -207,6 +207,8 @@ function addStory(request, response) {
 
 function addStoryToDb(story, callback) {
   console.log("entering addStoryToDb() ");
+  console.log(story.title);
+  console.log(story.content);
 
   var client = (this.client || new pg.Client(connectionString));
 
