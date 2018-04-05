@@ -222,7 +222,7 @@ function addStoryToDb(story, author, callback) {
     // insert into stories (stories_title, stories_content) values ('Story Title', 'This story is awesome');
     var sql = 'INSERT INTO stories (stories_title, stories_content) VALUES ($1, $2)';
     // [story.title, story.content]
-    var query = client.query("INSERT INTO stories (stories_id, stories_title, stories_content) VALUES (4, 'This is an awesome title', 'this is some content')", function (err, result) {
+    var query = client.query("INSERT INTO stories (stories_title, stories_content) VALUES ('This is an awesome title', 'this is some content')", function (err, result) {
       console.log("entering client.query");
       // we are now done getting the data from the DB, disconnect the client
       client.end(function (err) {
