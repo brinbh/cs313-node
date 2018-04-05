@@ -47,7 +47,7 @@ app.post('/addStory', urlencodedParser, function (req, res, next) {
   addStory(req, res);
   // res.render('success', {data: req.body});
   // res.end(JSON.stringify(req.body))
-  // res.redirect('/');
+  res.redirect('/');
 });
 
 app.get('/getStory/:id', function (req, res) {
@@ -194,15 +194,14 @@ function addStory(request, response) {
   addStoryToDb(story, author, function(error, result) {
 
     // Make sure we got a row with the person, then prepare JSON to send back
-    if (error || result !== "success") {
-      console.log("addStoryToDb result: " + result);
+    if (error) {
       response.status(500).json({success: false, data: error});
     } else {
-      response.status(200).json(result[0]);
+      response.status(200).json({success: true});
     }
   });
 
-  return response;
+  // return response;
 
 }
 
