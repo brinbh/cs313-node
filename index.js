@@ -100,7 +100,7 @@ function getAllStoriesFromDb(callback) {
       callback(err, null);
     }
 
-    var sql = "SELECT s.stories_id, s.stories_title, s.stories_content, a.authors_name FROM stories as s INNER JOIN authors as a ON s.stories_id = a.authors_stories";
+    var sql = "SELECT story_id, story_title, story_content, story_author FROM stories ";
 
     var query = client.query(sql, function (err, result) {
       // we are now done getting the data from the DB, disconnect the client
@@ -113,8 +113,6 @@ function getAllStoriesFromDb(callback) {
         console.log(err);
         callback(err, null);
       }
-
-      // console.log("Found result: " + JSON.stringify(result.rows));
 
       // call whatever function the person that called us wanted, giving it
       // the results that we have been compiling
@@ -163,7 +161,7 @@ function getStoryFromDb(id, callback) {
       callback(err, null);
     }
 
-    var sql = "SELECT * FROM stories WHERE stories_id = $1::int";
+    var sql = "SELECT * FROM stories WHERE story_id = $1::int";
     var params = [id];
 
     var query = client.query(sql, params, function (err, result) {
@@ -185,13 +183,13 @@ function getStoryFromDb(id, callback) {
 
 function addStory(request, response) {
   console.log("entering addStory()");
-  var author = request.body.author;
   var story = {
     title: request.body.title,
-    content: request.body.content
+    content: request.body.content,
+    author: request.body.author
   }
   // use a helper function to query the DB, and provide a callback for when it's done
-  addStoryToDb(story, author, function(error, result) {
+  addStoryToDb(story, function(error, result) {
 
     // Make sure we got a row with the person, then prepare JSON to send back
     if (error) {
@@ -200,15 +198,22 @@ function addStory(request, response) {
       response.status(200).json(result);
     }
   });
+  // addAuthorToDb(author, function(error, result) {
+  //
+  //   // Make sure we got a row with the person, then prepare JSON to send back
+  //   if (error) {
+  //     response.status(500).json({success: false, data: error});
+  //   } else {
+  //     response.status(200).json(result);
+  //   }
+  // });
 
   return response;
 
 }
 
-function addStoryToDb(story, author, callback) {
+function addStoryToDb(story, callback) {
   console.log("entering addStoryToDb() ");
-  console.log(story.title);
-  console.log(story.content);
 
   var client = (this.client || new pg.Client(connectionString));
 
@@ -218,10 +223,8 @@ function addStoryToDb(story, author, callback) {
       console.log(err);
       callback(err, null);
     }
-    // insert into stories (stories_title, stories_content) values ('Story Title', 'This story is awesome');
-    var sql = 'INSERT INTO stories (stories_title, stories_content) VALUES ($1, $2)';
-    // [story.title, story.content]
-    var query = client.query("INSERT INTO stories (stories_title, stories_content) VALUES ($1, $2)", [story.title, story.content], function (err, result) {
+    var sql = 'INSERT INTO stories (story_title, story_content) VALUES ($1, $2)';
+    var query = client.query("INSERT INTO stories (story_title, story_content, story_author) VALUES ($1, $2, $3)", [story.title, story.content, story.author], function (err, result) {
       console.log("entering client.query");
       // we are now done getting the data from the DB, disconnect the client
       client.end(function (err) {
@@ -236,14 +239,39 @@ function addStoryToDb(story, author, callback) {
       var status;
 
       callback(null, status);
-      console.log("result: " + Object.keys(result));
-      console.log("result.rowCount: " + result.rowCount);
-      console.log("result.row: " + result.row);
-      console.log("result.command: " + result.command);
-      console.log("result.fields: " + result.fields);
-      console.log("result.fields.length: " + result.fields.length);
-
     });
     console.log("query: " + query);
   });
 }
+//
+// function addAuthorToDb(author, callback) {
+//   console.log("entering addAuthorToDb() ");
+//
+//   var client = (this.client || new pg.Client(connectionString));
+//
+//   client.connect(function (err) {
+//     if (err) {
+//       console.log("Error connecting to DB: ")
+//       console.log(err);
+//       callback(err, null);
+//     }
+//     var sql = 'INSERT INTO authors (authors_title, authors_stories) VALUES ($1, $2)';
+//     var query = client.query("INSERT INTO authors (authors_title, authors_stories) VALUES ($1, $2)", [author.name, author.story], function (err, result) {
+//       console.log("entering client.query");
+//       // we are now done getting the data from the DB, disconnect the client
+//       client.end(function (err) {
+//         if (err) throw err;
+//       });
+//
+//       if (err) {
+//         console.log("Error in query: ");
+//         console.log(err);
+//         callback(err, null);
+//       }
+//       var status;
+//
+//       callback(null, status);
+//     });
+//     console.log("query: " + query);
+//   });
+// }
