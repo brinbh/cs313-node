@@ -191,7 +191,7 @@ function addStory(request, response) {
     content: request.body.content
   }
   // use a helper function to query the DB, and provide a callback for when it's done
-  addStoryToDb(story, function(error, result) {
+  addStoryToDb(story, author, function(error, result) {
 
     // Make sure we got a row with the person, then prepare JSON to send back
     if (error || result !== "success") {
@@ -206,7 +206,7 @@ function addStory(request, response) {
 
 }
 
-function addStoryToDb(story, callback) {
+function addStoryToDb(story, author, callback) {
   console.log("entering addStoryToDb() ");
   console.log(story.title);
   console.log(story.content);
@@ -220,9 +220,9 @@ function addStoryToDb(story, callback) {
       callback(err, null);
     }
     // insert into stories (stories_title, stories_content) values ('Story Title', 'This story is awesome');
-    var sql = "INSERT INTO stories (stories_title, stories_content) VALUES ($1, $2)";
+    var sql = 'INSERT INTO stories (stories_title, stories_content) VALUES ($1, $2)';
 
-    var query = client.query(sql, [story.title, story.content], function (err, result) {
+    var query = client.query('INSERT INTO stories (stories_title, stories_content) VALUES ($1, $2)', [story.title, story.content], function (err, result) {
       console.log("entering client.query");
       // we are now done getting the data from the DB, disconnect the client
       client.end(function (err) {
@@ -238,6 +238,8 @@ function addStoryToDb(story, callback) {
 
       callback(null, status);
       console.log("result: " + Object.keys(result));
+      console.log("result.rowCount: " + result.rowCount);
+      console.log("result.row: " + result.row);
     });
   });
 }
