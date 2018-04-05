@@ -244,8 +244,7 @@ function addStoryToDb(story, author, callback) {
       console.log("result.fields: " + result.fields);
       console.log("result.fields.length: " + result.fields.length);
 
-
-
     });
+    console.log("query: " + query);
   });
 }
