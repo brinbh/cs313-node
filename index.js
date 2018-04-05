@@ -240,6 +240,12 @@ function addStoryToDb(story, author, callback) {
       console.log("result: " + Object.keys(result));
       console.log("result.rowCount: " + result.rowCount);
       console.log("result.row: " + result.row);
+      console.log("result.command: " + result.command);
+      console.log("result.fields: " + result.fields);
+      console.log("result.fields.length: " + result.fields.length);
+
+
+
     });
   });
 }
