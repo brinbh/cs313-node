@@ -197,11 +197,11 @@ function addStory(request, response) {
     if (error) {
       response.status(500).json({success: false, data: error});
     } else {
-      response.status(200).json({success: true});
+      response.status(200).json(result);
     }
   });
 
-  // return response;
+  return response;
 
 }
 
