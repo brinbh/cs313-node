@@ -53,7 +53,7 @@ body{
 body{
     display: flex;
     flex-flow: column nowrap;
-    padding: 5%;
+    padding: 5% 25%;
 }
 
 header{
