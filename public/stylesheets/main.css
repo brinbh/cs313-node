@@ -103,6 +103,9 @@ header {
     color: #f9f9f9;
     border-radius: 5px;
     border: none;
+    max-width: 75px;
+    margin: 10px 0px;
+    text-align: center;
 }
 
 /* FORM */
