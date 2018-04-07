@@ -96,7 +96,9 @@ header {
     font-weight: bold;
     font-size: 1.5rem;
 }
-
+a > .back-button {
+    border-bottom: none;
+}
 .back-button {
     padding: 5px;
     background-color: #515151;
