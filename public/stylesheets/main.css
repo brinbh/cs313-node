@@ -97,6 +97,13 @@ header {
     font-size: 1.5rem;
 }
 
+.back-button {
+    padding: 5px;
+    background-color: #515151;
+    color: #f9f9f9;
+    border-radius: 5px;
+}
+
 /* FORM */
 form {
     display: flex;
