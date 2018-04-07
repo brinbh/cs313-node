@@ -95,7 +95,6 @@ function getAllStories(request, response) {
 * get all stories from database
 */
 function getAllStoriesFromDb(callback) {
-  console.log("entering getAllStoriesFromDb()");
   var client = (this.client || new pg.Client(connectionString));
 
   client.connect(function (err) {
@@ -131,7 +130,6 @@ function getAllStoriesFromDb(callback) {
 * Get story by id
 */
 function getStory(request, response) {
-  console.log("entering getStory()");
   // First get the person's id
   var id = request.params.id;
 
@@ -143,21 +141,17 @@ function getStory(request, response) {
       response.status(500).json({success: false, data: error});
     } else {
       var story = result[0];
-      response.status(200).json(result[0]);
+      response.status(200).json(story);
     }
   });
 
-  console.log("response: " + response);
-
   return response;
-  // response.render('story');
 }
 
 /*
 * Get one story from database
 */
 function getStoryFromDb(id, callback) {
-  console.log("Getting story from DB with id: " + id);
 
   var client = (this.client || new pg.Client(connectionString));
 
@@ -192,7 +186,6 @@ function getStoryFromDb(id, callback) {
 * Add a Story
  */
 function addStory(request, response) {
-  console.log("entering addStory()");
   var story = {
     title: request.body.title,
     content: request.body.content,
@@ -217,19 +210,15 @@ function addStory(request, response) {
 * Add Story to Database
 */
 function addStoryToDb(story, callback) {
-  console.log("entering addStoryToDb() ");
-
   var client = (this.client || new pg.Client(connectionString));
 
   client.connect(function (err) {
     if (err) {
-      console.log("Error connecting to DB: ")
       console.log(err);
       callback(err, null);
     }
     var sql = 'INSERT INTO stories (story_title, story_content) VALUES ($1, $2)';
     var query = client.query("INSERT INTO stories (story_title, story_content, story_author) VALUES ($1, $2, $3)", [story.title, story.content, story.author], function (err, result) {
-      console.log("entering client.query");
       // we are now done getting the data from the DB, disconnect the client
       client.end(function (err) {
         if (err) throw err;
@@ -244,6 +233,5 @@ function addStoryToDb(story, callback) {
 
       callback(null, status);
     });
-    console.log("query: " + query);
   });
 }
