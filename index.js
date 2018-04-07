@@ -31,7 +31,6 @@ app.post('/login', urlencodedParser, function (req, res, next) {
 });
 
 app.post('/addStory', urlencodedParser, function (req, res, next) {
-  console.log("posting addStory()");
   addStory(req, res);
   res.redirect('/');
 });
@@ -75,7 +74,6 @@ function handleLogin(req, res) {
 * Get all stories
 */
 function getAllStories(request, response) {
-  console.log("entering getAllStories()");
   // use a helper function to query the DB, and provide a callback for when it's done
   getAllStoriesFromDb( function(error, result) {
 
