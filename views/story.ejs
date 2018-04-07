@@ -41,8 +41,14 @@
     }
 
     function renderNewLines(content) {
-      debugger
-      console.log("LOOK: " + content);
+      for (const el in content) {
+        if (el === '/' && el+1 === 'r') {
+          console.log("LOOK: space added " + el);
+          el.replace('/', '<br><br>');
+
+        }
+      }
+      return content;
     }
 
 
