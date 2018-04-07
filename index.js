@@ -21,7 +21,6 @@ if (process.env.PORT) {
 }
 
 app.use(express.static(__dirname + '/public'));
-// app.use(bodyParser());
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.set('views', __dirname + '/views');
