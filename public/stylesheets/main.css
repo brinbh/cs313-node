@@ -114,7 +114,8 @@ textarea {
 input[type="submit"] {
     background-color: #515151;
     color: #F2F1EF;
-    width: 10%;
+    width: 20%;
     cursor: pointer;
     padding: 5px;
+    margin: 5px;
 }

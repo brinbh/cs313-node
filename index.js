@@ -1,15 +1,20 @@
 const express = require('express');
-var router = express.Router();
-var bodyParser = require('body-parser');
+const router = express.Router();
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const validator = require('express-validator');
 const pg = require('pg');
-const url = require('url');
 let connectionString = 'postgres://postgres:postgres@localhost:5432/stories';
 const app = express();
-const { Client } = require('pg');
+require('./routes')(app);
 
 app.set('port', (process.env.PORT || 5000));
-console.log("PORT: " + process.env.PORT);
-console.log("entering index.js");
+
+app.use(session({
+  secret: 'my-secret',
+  resave: false,
+  saveUninitialized: false
+}))
 
 if (process.env.PORT) {
   connectionString = process.env.DATABASE_URL;
@@ -19,34 +24,16 @@ app.use(express.static(__dirname + '/public'));
 // app.use(bodyParser());
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
-
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-app.post('/login', function (req, res) {
-  username: req.body.username;
-  password:  req.body.password;
-  console.log(username + " " + password);
-})
-
-app.get('/logout', function (req, res) {
-})
-
-// routing to different pages
-
-app.get('/', function (req, res) {
-  res.render('index')
-});
-
-app.get('/add', function (req, res) {
-  res.render('add')
+app.post('/login', urlencodedParser, function (req, res, next) {
+  handleLogin(req, res);
 });
 
 app.post('/addStory', urlencodedParser, function (req, res, next) {
   console.log("posting addStory()");
   addStory(req, res);
-  // res.render('success', {data: req.body});
-  // res.end(JSON.stringify(req.body))
   res.redirect('/');
 });
 
@@ -54,24 +41,40 @@ app.get('/getStory/:id', function (req, res) {
   getStory(req, res);
 });
 
-app.get('/story/:id', function (req, res) {
-  res.render('story');
-});
-
 app.get('/getAllStories', function(request, response) {
   getAllStories(request, response);
 });
 
-/* PORT Listening */
-
+/*
+* PORT Listening
+*/
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
 
-/*
-GET ALL STORIES
- */
 
+/*
+* Login
+*/
+function handleLogin(req, res) {
+  var session = req.session;
+  var credentials = {
+    user: req.body.user,
+    pass: req.body.pass
+  }
+  var result = {success: false};
+  if (credentials.user === 'myUsername' && credentials.pass === "myPassword") {
+    session.user = req.body.user;
+    result = {success: true};
+  }
+  // res.redirect('/user');
+  res.json(result);
+  // return result;
+}
+
+/*
+* Get all stories
+*/
 function getAllStories(request, response) {
   console.log("entering getAllStories()");
   // use a helper function to query the DB, and provide a callback for when it's done
@@ -89,6 +92,9 @@ function getAllStories(request, response) {
   });
 }
 
+/*
+* get all stories from database
+*/
 function getAllStoriesFromDb(callback) {
   console.log("entering getAllStoriesFromDb()");
   var client = (this.client || new pg.Client(connectionString));
@@ -123,9 +129,8 @@ function getAllStoriesFromDb(callback) {
 
 
 /*
-GET STORY BY ID
- */
-
+* Get story by id
+*/
 function getStory(request, response) {
   console.log("entering getStory()");
   // First get the person's id
@@ -149,6 +154,9 @@ function getStory(request, response) {
   // response.render('story');
 }
 
+/*
+* Get one story from database
+*/
 function getStoryFromDb(id, callback) {
   console.log("Getting story from DB with id: " + id);
 
@@ -181,6 +189,9 @@ function getStoryFromDb(id, callback) {
   });
 }
 
+/*
+* Add a Story
+ */
 function addStory(request, response) {
   console.log("entering addStory()");
   var story = {
@@ -198,20 +209,14 @@ function addStory(request, response) {
       response.status(200).json(result);
     }
   });
-  // addAuthorToDb(author, function(error, result) {
-  //
-  //   // Make sure we got a row with the person, then prepare JSON to send back
-  //   if (error) {
-  //     response.status(500).json({success: false, data: error});
-  //   } else {
-  //     response.status(200).json(result);
-  //   }
-  // });
 
   return response;
 
 }
 
+/*
+* Add Story to Database
+*/
 function addStoryToDb(story, callback) {
   console.log("entering addStoryToDb() ");
 
@@ -243,35 +248,3 @@ function addStoryToDb(story, callback) {
     console.log("query: " + query);
   });
 }
-//
-// function addAuthorToDb(author, callback) {
-//   console.log("entering addAuthorToDb() ");
-//
-//   var client = (this.client || new pg.Client(connectionString));
-//
-//   client.connect(function (err) {
-//     if (err) {
-//       console.log("Error connecting to DB: ")
-//       console.log(err);
-//       callback(err, null);
-//     }
-//     var sql = 'INSERT INTO authors (authors_title, authors_stories) VALUES ($1, $2)';
-//     var query = client.query("INSERT INTO authors (authors_title, authors_stories) VALUES ($1, $2)", [author.name, author.story], function (err, result) {
-//       console.log("entering client.query");
-//       // we are now done getting the data from the DB, disconnect the client
-//       client.end(function (err) {
-//         if (err) throw err;
-//       });
-//
-//       if (err) {
-//         console.log("Error in query: ");
-//         console.log(err);
-//         callback(err, null);
-//       }
-//       var status;
-//
-//       callback(null, status);
-//     });
-//     console.log("query: " + query);
-//   });
-// }
